@@ -1,0 +1,34 @@
+!------ Skeleton for body section -----
+Body 1
+  Name = Gas
+End
+
+Body 2
+  Name = Top
+End
+
+Body 3
+  Name = Kapton
+End
+
+Body 4
+  Name = Bottom
+End
+
+!------ Skeleton for boundary section -----
+Boundary Condition 1
+  Name = Cathode
+End
+
+Boundary Condition 2
+  Name = Top boundary
+End
+
+Boundary Condition 3
+  Name = Bottom boundary
+End
+
+Boundary Condition 4
+  Name = Anode
+End
+

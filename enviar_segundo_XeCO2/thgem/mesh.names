@@ -1,0 +1,10 @@
+! ----- names for bodies -----
+$ Gas = 1
+$ Top = 2
+$ Kapton = 3
+$ Bottom = 4
+! ----- names for boundaries -----
+$ Cathode = 5
+$ Top boundary = 6
+$ Bottom boundary = 7
+$ Anode = 8

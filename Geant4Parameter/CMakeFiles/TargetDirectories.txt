@@ -1,0 +1,7 @@
+/home/christian/Documents/Simulação/Titanio/Geant4Parameter/CMakeFiles/install/strip.dir
+/home/christian/Documents/Simulação/Titanio/Geant4Parameter/CMakeFiles/edit_cache.dir
+/home/christian/Documents/Simulação/Titanio/Geant4Parameter/CMakeFiles/Teste.dir
+/home/christian/Documents/Simulação/Titanio/Geant4Parameter/CMakeFiles/rebuild_cache.dir
+/home/christian/Documents/Simulação/Titanio/Geant4Parameter/CMakeFiles/list_install_components.dir
+/home/christian/Documents/Simulação/Titanio/Geant4Parameter/CMakeFiles/install/local.dir
+/home/christian/Documents/Simulação/Titanio/Geant4Parameter/CMakeFiles/install.dir

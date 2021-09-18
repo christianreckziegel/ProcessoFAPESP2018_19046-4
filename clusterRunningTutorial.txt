@@ -1,0 +1,79 @@
+Seguintes informações obtidas em: https://ncc.unesp.br/gridunesp/docs/basico/04_exemplo_simples.html
+
+O procedimento básico para a execução de uma simulação envolve:
+
+-Transferir os arquivos de entrada (como descrito em Transferindo com uma máquina Linux/Unix/MacOS
+-Acessar o servidor access.grid.unesp.br (descrito em Acessando de uma máquina com Linux/Unix/MacOS)
+-Criar um arquivo de envio (script de submissão de jobs)
+-Enviar o processo
+-Verificar seu estado na fila
+-Copiar os resultados quando a simulação acabar
+
+ssh christian.reckziegel@hpc.ufabc.edu.br
+ssh christian.reckziegel@titanio.ufabc.int.br
+
+
+Obs. 1: Seja para enviar os arquivos de entrada ou para baixar os arquivos de saída, você deve utilizar o seu diretório home para essa transferência. Exemplo: /home/**username**. Além disso, deve-se passar os arquivos primeiro para o HPC e de lá passar para o Titânio.
+
+O Exemplo abaixo irá copiar o arquivo data.txt do seu computador local para o seu home na máquina.
+$ scp data.txt username@titanio.ufabc.int.br:
+No seguinte exemplo, o comando scp irá executar a operação inversa: copiar o arquivo data.txt da máquina access para o seu diretorio corrente no computador local.
+$ scp username@titanio.ufabc.int.br:data.txt .
+
+
+
+Obs. 2: os processos precisam evitar utilizar o /home para a execução da simulação, pois isso diminui a performance de todo o cluster. No caso da UNESP, para isso foi criado um script que auxilia a tarefa de:
+-criar um diretório temporário
+-copiar os arquivos de entrada
+-executar a simulação
+-copiar os arquivos de saída
+-apagar os arquivos temporários
+
+Obs. 2: diretórios.
+/home/<usuário>/
+é o diretório padrão do usuário.
+/scratch/global/
+é a área de trabalho destinadas ao armazenamento temporário de trabalhos, possui a mesma estrutura do HOME dos
+usuários, ou seja, "/scratch/global/<usuário>/". Este diretório de scratch global é um local temporário e pode ser removido ao final do job.
+Arquivos importantes, devem ser copiados para o diretório HOME do usuário.
+
+Para copiar arquivos direto para o Titânio:
+1ª opção
+scp -J christian.reckziegel@hpc.ufabc.edu.br /myGarf root@172.17.10.11:~/.
+christian.reckziegel@hpc.ufabc.edu.br's password:
+Password:
+2ª opção
+A opção -J se refere a opção "proxyjump" do arquivo config do ssh, ou seja, tanto faz você sempre utilizar -J no comando ou já deixar o gateway de conexão HPC já configurado diretamente em seu ssh config. Exemplo de ssh_config caso queira já deixar fixo seu proxyjump sempre que for conectar ao Titanio:
+
+Host proxytitanio
+identityfile /Users/christian.reckziegel/.ssh/sshkey_versatus_rsa
+user christian.reckziegel
+hostname hpc.ufabc.edu.br
+Host titanio
+identityfile /Users/christian.reckziegel/.ssh/sshkey_versatus_ed25519
+user christian.reckziegel
+hostname titanio.ufabc.int.br
+proxyjump proxytitanio
+
+No meu exemplo acima eu só preciso rodar o comando abaixo pra tanto conectar ao cluster quanto transferir arquivos:
+Conectar:
+ssh titanio
+Transferir arquivos:
+scp teste.txt titanio:~/
+
+Para submeter vários jobs de uma vez, recomenda-se o uso de job arrays:
+https://crc.ku.edu/hpc/how-to/arrays
+
+Para submeter uma simulação Garfield:
+sbatch meuGarfield2.sh Energia(with decimal precision)
+
+Os diretórios enviar_titanio1/ e enviar_titanio2/ servem para submeter duas simulações (~100 jobs cada) ao mesmo tempo no cluster. 
+Ao final será necessário transferir de volta todos os Result.root para análise. Talvez seja melhor já rodar uma macro que une os ROOT files no próprio cluster e a análise é feita no meu local.
+
+
+Para conexão e transferência também posso executar em minha máquina
+
+ssh -fN -L 9998:titanio.ufabc.int.br:22 christian.reckziegel@hpc.ufabc.edu.br
+ssh -p 9998 christian.reckziegel@localhost
+scp -P 9998 arquivo.dat christian.reckziegel@localhost:~/
+scp -P 9998 christian.reckziegel@localhost:arquivo.dat .
